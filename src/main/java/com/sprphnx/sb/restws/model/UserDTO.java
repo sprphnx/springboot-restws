@@ -2,10 +2,15 @@ package com.sprphnx.sb.restws.model;
 
 import java.util.Date;
 
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 public class UserDTO {
 
 	private Integer id;
+	@Size(min=2, message="invalid name length")
 	private String name;
+	@Past(message="invalid date of birth")
 	private Date dateOfBirth;
 	
 	public UserDTO() {

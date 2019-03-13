@@ -1,9 +1,15 @@
 package com.sprphnx.sb.restws.controller;
 
-import java.net.URI;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,11 +19,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sprphnx.sb.restws.dao.UserDAO;
 import com.sprphnx.sb.restws.exception.UserNotFoundException;
 import com.sprphnx.sb.restws.model.UserDTO;
+
+
 
 @RestController
 @RequestMapping("/users")
@@ -43,11 +50,21 @@ public class UserController {
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<Object> save(@RequestBody UserDTO user) {
+	public Resource<UserDTO> save(@Valid @RequestBody UserDTO user) {
 		userDAO.save(user);
 		// Best practice is to return created status with the uri as below
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
-		return ResponseEntity.created(uri).build();
+		// with out hateoas
+		//URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
+		
+		Resource<UserDTO> resource = new Resource<UserDTO>(user);
+		
+		ControllerLinkBuilder linkTo = linkTo(methodOn(this.getClass()).findById(user.getId()));
+		
+		resource.add(linkTo.withRel("URI"));
+		//with out hateoas
+		//return ResponseEntity.created(uri).build();
+		
+		return resource;
 	}
 
 	@DeleteMapping("/{id}")
