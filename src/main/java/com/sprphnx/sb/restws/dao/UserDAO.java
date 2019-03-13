@@ -6,8 +6,12 @@ import com.sprphnx.sb.restws.model.UserDTO;
 
 public interface UserDAO {
 
-	List<UserDTO> findAll();
+	public List<UserDTO> findAll();
 
-	List<UserDTO> findById(Integer id);
+	public List<UserDTO> findById(Integer id);
+
+	public void save(UserDTO user);
+
+	public UserDTO delete(Integer id);
 
 }
