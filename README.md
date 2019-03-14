@@ -1,9 +1,9 @@
 ## # RESTful WS (CRUD) Demo with the following features
 
 1. Exception handling in REST
-- 		ExceptionController to handle exceptions in a sigle controller
-- 		Use of @ControllerAdvice and @ExceptionHandler
-- 		Handling validation of data with javax.validation package.
+    ExceptionController to handle exceptions in a sigle controller
+    Use of @ControllerAdvice and @ExceptionHandler
+    Handling validation of data with javax.validation package.
 
 2. Internationalization (I18N) support (demo greetings service switching response language to english, french and arabic according to the request header)
 - 		Handling messages via different property files.
